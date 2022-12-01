@@ -88,7 +88,7 @@ const pokerhand = (() => {
 				wCards.push(suits[i] + delimiter + cardValueArr[i])
 				if (i === cardValueArr.length - 2) {
 					count += 1;
-					wCards.push(suits[i + 1] + delimiter + cardValueArr[i + 1])
+					wCards.push(suits[i + 1] + delimiter + cardValueArr[i + 1]);
 				}
 			} else if (cardValueArr[i] !== cardValueArr[i + 1]) {
 				count = 0;
@@ -119,8 +119,13 @@ const pokerhand = (() => {
 					cNumValArr[0] = cardVal;
 					break;
 				case 3:
-					if (one_pair || two_pair) {
+					if (one_pair && cNumValArr[0] !== cardVal) {
 						fullhouse = true;
+						cNumValArr[1] = cardVal;
+					} else if (two_pair) {
+						if (cNumValArr.includes(cardVal)) {
+							fullhouse = true;
+						}
 						cNumValArr[1] = cardVal;
 					} else {
 						ToK = true;
@@ -132,22 +137,24 @@ const pokerhand = (() => {
 						two_pair = true;
 						cNumValArr[1] = cardVal;
 					} else if (ToK) {
-						fullhouse = true
+						console.log("setting full house here 2");
+						fullhouse = true;
 						cNumValArr[1] = cardVal;
 					} else {
 						one_pair = true;
 						cNumValArr[0] = cardVal;
 					}
+					break;
 				default:
 					break;
 			}
 		});
 		straight = checkStraight(cardValueArr);
-		let winType;
+		let winType = "";
 		// RETURN WINTYPE
-		if (FoK === true) {
+		if (FoK) {
 			winType = WIN.FOUR_OF_A_KIND;
-		} else if ((ToK === true && one_pair === true) || fullhouse === true) {
+		} else if (fullhouse) {
 			winType = WIN.FULLHOUSE;
 		} else if (straight) {
 			winType = WIN.STRAIGHT;
@@ -192,9 +199,9 @@ const pokerhand = (() => {
 		}
 	};
 
-	const checkRank = (cardsArr) => {
+	const checkRank = (hand) => {
 		try {
-			if (isCardsRepeated(cardsArr)) {
+			if (isCardsRepeated(hand)) {
 				throw "cards repeated : please do not use more than 1 suite ";
 			}
 		} catch (e) {
@@ -204,12 +211,11 @@ const pokerhand = (() => {
 			process.exit();
 		}
 
-		let cards_in_hand = rearrangeCards(cardsArr.map(convertCard));
+		hand = rearrangeCards(hand.map(convertCard));
 		let [card_suit, card_value] = [[], []];
 		let rank, straight;
-		let hand;
 
-		cards_in_hand.map((card, index) => {
+		hand.map((card, index) => {
 			let cardObj = card.split(delimiter);
 			[card_suit[index], card_value[index]] = [cardObj[0], parseInt(cardObj[1])];
 		});
@@ -219,7 +225,7 @@ const pokerhand = (() => {
 		if (rank == WIN.FLUSH) {
 			straight = checkStraight(winningCards_nums);
 			if (straight == true) {
-				rank = (winningCards_nums[0] == 14 && winningCards_nums[1] == 13) ? WIN.ROYAL_FLUSH : WIN.STRAIGHT_FLUSH;
+				rank = (winningCards_nums[0] == 14 && winningCards_nums[1] == 13) ? WIN.ROYAL_FLUSH : rank;
 			}
 		} else {
 			let tCardVal = card_value;
@@ -235,12 +241,12 @@ const pokerhand = (() => {
 
 		console.info("The winning cards are " + winningCards);
 		console.info("THe rank is " + rank);
+		console.info("*********************************************************************");
 
 		// RETURN RANK & WINIINGS CARDS TO HIGHLIGHT
 		return {
 			"wintype": rank,
-			"winningcards": winningCards,
-			"hand": cardsArr
+			"winningcards": winningCards
 		};
 	};
 
