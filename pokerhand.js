@@ -1,7 +1,7 @@
-var pokerhand = () => {
-	var winningCards = [];
-	var winningCards_nums = [];
-	const alphaNumericArr = {
+const pokerhand = (() => {
+	let winningCards = [];
+	let winningCards_nums = [];
+	const metaAJQK = {
 		"A": 14,
 		"J": 11,
 		"Q": 12,
@@ -13,7 +13,7 @@ var pokerhand = () => {
 	};
 	const winningCardLength = 5;
 	const delimiter = "-";
-	const CONSTANT = {
+	const WIN = {
 		ROYAL_FLUSH: "ROYAL_FLUSH",
 		STRAIGHT_FLUSH: "STRAIGHT_FLUSH",
 		FLUSH: "FLUSH",
@@ -30,16 +30,14 @@ var pokerhand = () => {
 
 	// UTILITY FUNCTIONS ***************************************************************************************
 	// function converts AJQK to numeric
-	const convertToNumeric = (cardsArr) => cardsArr.map(concatArrElement);
+	const convertCard = (card) => {
+		let t = card.split(delimiter);
+		return t[0] + delimiter + ((metaAJQK[t[1]] !== undefined) ? metaAJQK[t[1]] : t[1]);
+	};
 
-	const concatArrElement = (cardsArrItem) => {
-		let t = cardsArrItem.split(delimiter);
-		return t[0] + delimiter + ((alphaNumericArr[t[1]] != undefined) ? alphaNumericArr[t[1]] : t[1]);
-	}
-
-	const revertToCards = (cardsArr) => cardsArr.map(concatArrElement);
-
-	// SELECTION SORT 
+	/* SELECTION SORT ALGORITHM
+		re-arrange the cards in increasing order based on the card value
+	*/
 	const rearrangeCards = (cardArr) => {
 		let cardArrLen = cardArr.length;
 		for (let i = 0; i < cardArrLen; i++) {
@@ -50,23 +48,15 @@ var pokerhand = () => {
 			}
 		}
 		return cardArr;
-	}
+	};
 
-	// ES2015 ::  Set returns the size of unique elements in set
-	const removeDuplicate = (cardsNumArr) => {
-		return [...new Set(cardsNumArr)];
-	}
-
-	/* ES2015 ::  Set returns the size of unique elements in set
-		by comparing the cardsArr with unique element array we can find whether the card is repeated or not
-	*/
-	const isCardsRepeated = (cardsArr) => cardsArr.length !== new Set(cardsArr).size
-
+	// Set function is used to get the non-repetitive element Array Size
+	const isCardsRepeated = (cardsArr) => cardsArr.length !== new Set(cardsArr).size;
 
 	// ***********************************************************************************************************
 
 	const checkFlush = (suits, cardValueArr) => {
-		let winType = CONSTANT.NONE;
+		let winType = WIN.NONE;
 		let suitCount = {};
 		let winningCardsVal = {};
 
@@ -80,18 +70,16 @@ var pokerhand = () => {
 			if (suitCount[suit].length >= 5) {
 				winningCards = [...suitCount[suit]];
 				winningCards_nums = [...winningCardsVal[suit]];
-				winType = CONSTANT.FLUSH
+				winType = WIN.FLUSH;
 			}
 		});
 		return winType;
-	}
+	};
 
 	const checkStraight = (cardValueArr, suits = []) => {
 		let count = 0;
-		let cardValueArrNoDuplicate = removeDuplicate(cardValueArr);
-		let cardValueArrNoDuplicateLen = cardValueArrNoDuplicate.length;
 		// AFTER REMOVING DUPLICATE THERE SHOULD BE MIN 5 CARDS ELSE RETURN FALSE
-		if (cardValueArrNoDuplicateLen < winningCardLength) return false;
+		if (new Set(cardValueArr).size < winningCardLength) return false;
 
 		let wCards = [];
 		for (let i = 0; i < cardValueArr.length - 1; i++) {
@@ -115,249 +103,152 @@ var pokerhand = () => {
 			return true;
 		}
 		return false;
-	}
+	};
 
-	const checkNumbers = (cardValueArr, suites)=>
-	{
+	const checkNumbers = (cardValueArr, suites) => {
 		let cNum = Array(14).fill(0);
 		let cNumValArr = Array(2).fill(0);
 		let one_pair, two_pair, ToK, FoK, fullhouse, straight, high_card;
 		[one_pair, two_pair, ToK, FoK, fullhouse, straight, high_card].fill(false);
 
-		cardValueArr.map((cardVal, index) => {
-			cNum[index] += 1;
-			switch (cNum[index]) {
+		cardValueArr.map((cardVal) => {
+			cNum[cardVal] += 1;
+			switch (cNum[cardVal]) {
 				case 4:
 					FoK = true;
-					cNumValArr[0] = index;
+					cNumValArr[0] = cardVal;
 					break;
 				case 3:
 					if (one_pair || two_pair) {
 						fullhouse = true;
-						cNumValArr[1] = index;
+						cNumValArr[1] = cardVal;
 					} else {
 						ToK = true;
-						cNumValArr[0] = index;
+						cNumValArr[0] = cardVal;
 					}
 					break;
 				case 2:
 					if (one_pair || two_pair) {
 						two_pair = true;
-						cNumValArr[1] = index;
+						cNumValArr[1] = cardVal;
 					} else if (ToK) {
 						fullhouse = true
-						cNumValArr[1] = index;
+						cNumValArr[1] = cardVal;
 					} else {
 						one_pair = true;
-						cNumValArr[0] = index;
+						cNumValArr[0] = cardVal;
 					}
 				default:
-					high_card = true;
-					(ToK == true || FoK == true) ? cNumValArr[1] = index : cNumValArr[0] = index;
+					break;
 			}
-			straight = checkStraight(cardValueArr);
-		// RETURN WINTYPE
-		if (FoK == true) {
-			addCardsToArray(CONSTANT.FOUR_OF_A_KIND, cardValueArr, cNumValArr, suites);
-			return CONSTANT.FOUR_OF_A_KIND;
-		} else if ((ToK == true && one_pair == true) || fullhouse == true) {
-			addCardsToArray(CONSTANT.FULLHOUSE, cardValueArr, cNumValArr, suites);
-			return CONSTANT.FULLHOUSE;
-		} else if (straight) {
-			return CONSTANT.STRAIGHT;
-		} else if (ToK) {
-			addCardsToArray(CONSTANT.THREE_OF_A_KIND, cardValueArr, cNumValArr, suites);
-			return CONSTANT.THREE_OF_A_KIND;
-		} else if (two_pair) {
-			addCardsToArray(CONSTANT.TWO_PAIR, cardValueArr, cNumValArr, suites);
-			return CONSTANT.TWO_PAIR;
-		} else if (one_pair) {
-			addCardsToArray(CONSTANT.ONE_PAIR, cardValueArr, cNumValArr, suites);
-			return CONSTANT.ONE_PAIR;
-		} else {
-			addCardsToArray(CONSTANT.HIGH_CARD, cardValueArr, cNumValArr, suites);
-			return CONSTANT.HIGH_CARD;
-		}
 		});
-	}
-
-	// ALL OTHER WINS
-	function checkNumbersq(numbers, suites) {
-		var cNum = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-		// TEMPERORY VARIABLES FOR CHECKING PURPOSES ONLY
-		var one_pair, two_pair, TOK, FOK, fullhouse, straight;
-		one_pair = two_pair = TOK = FOK = fullhouse = false;
-		var temp_arr = [0, 0];
-
-		// COUNT THE REPETATIVE NUMBERS
-		for (var j = 0; j < numbers.length; j++) cNum[numbers[j]]++;
-
-		// CHECK THE WINTYPE
-		for (var i = 0; i < cNum.length; i++) {
-			//trace("the Cnum valuse is "+cNum[i]);
-			switch (cNum[i]) {
-				case 4:
-					FOK = true;
-					temp_arr[0] = i;
-					break;
-				case 3:
-					if (one_pair == true || TOK == true) {
-						fullhouse = true;
-						temp_arr[1] = i;
-					} else {
-						TOK = true;
-						temp_arr[0] = i;
-					}
-					break;
-				case 2:
-					if (one_pair == true) {
-						if (two_pair == true) {
-							temp_arr[0] = temp_arr[1];
-						} else {
-							two_pair = true;
-						}
-						temp_arr[1] = i;
-					} else {
-						(TOK == true || FOK == true) ? temp_arr[1] = i : temp_arr[0] = i;
-						one_pair = true;
-					}
-					break;
-			}
-		}
-		// CHECK FOR STRAIGHT
-		straight = checkStraight(numbers);
+		straight = checkStraight(cardValueArr);
+		let winType;
 		// RETURN WINTYPE
-		if (FOK == true) {
-			addCardsToArray(CONSTANT.FOUR_OF_A_KIND, numbers, temp_arr, suites);
-			return CONSTANT.FOUR_OF_A_KIND;
-		} else if ((TOK == true && one_pair == true) || fullhouse == true) {
-			addCardsToArray(CONSTANT.FULLHOUSE, numbers, temp_arr, suites);
-			return CONSTANT.FULLHOUSE;
+		if (FoK === true) {
+			winType = WIN.FOUR_OF_A_KIND;
+		} else if ((ToK === true && one_pair === true) || fullhouse === true) {
+			winType = WIN.FULLHOUSE;
 		} else if (straight) {
-			return CONSTANT.STRAIGHT;
-		} else if (TOK) {
-			addCardsToArray(CONSTANT.THREE_OF_A_KIND, numbers, temp_arr, suites);
-			return CONSTANT.THREE_OF_A_KIND;
+			winType = WIN.STRAIGHT;
+		} else if (ToK) {
+			winType = WIN.THREE_OF_A_KIND;
 		} else if (two_pair) {
-			addCardsToArray(CONSTANT.TWO_PAIR, numbers, temp_arr, suites);
-			return CONSTANT.TWO_PAIR;
+			winType = WIN.TWO_PAIR;
 		} else if (one_pair) {
-			addCardsToArray(CONSTANT.ONE_PAIR, numbers, temp_arr, suites);
-			return CONSTANT.ONE_PAIR;
+			winType = WIN.ONE_PAIR;
 		} else {
-			addCardsToArray(CONSTANT.HIGH_CARD, numbers, temp_arr, suites);
-			return CONSTANT.HIGH_CARD;
+			cNumValArr[0] = Math.max(...cardValueArr);
+			winType = WIN.HIGH_CARD;
 		}
-	}
+		addWinningCardsToArray(winType, cardValueArr, cNumValArr, suites);
+		return winType;
+	};
 
-	function addCardsToArray(winType, nums, temp_arr, suites) {
-		var cnt = 0;
+
+	const addWinningCardsToArray = (winType, cardValArr, cardsNumArr, suites) => {
 		winningCards = [];
-		var i;
-
 		switch (winType) {
-			case CONSTANT.FOUR_OF_A_KIND:
-				for (i = 0; i < nums.length; i++) {
-					if (temp_arr[0] == nums[i] && cnt < 4) {
-						winningCards.push(suites[i] + delimiter + nums[i]);
-						cnt++;
+			case WIN.FOUR_OF_A_KIND:
+			case WIN.THREE_OF_A_KIND:
+			case WIN.ONE_PAIR:
+			case WIN.HIGH_CARD:
+				winningCards = cardValArr.map((cardVal, index) => {
+					if (cardsNumArr[0] === cardVal) {
+						return (suites[index] + delimiter + cardVal);
 					}
-				}
+				}).filter(n => n);
 				break;
-			case CONSTANT.FULLHOUSE:
-				for (i = 0; i < nums.length; i++) {
-					if (nums[i] == temp_arr[0] || nums[i] == temp_arr[1]) {
-						winningCards.push(suites[i] + delimiter + nums[i]);
-						cnt++;
+			case WIN.FULLHOUSE:
+			case WIN.TWO_PAIR:
+				winningCards = cardValArr.map((cardVal, index) => {
+					if (cardsNumArr[0] === cardVal || cardsNumArr[1] === cardVal) {
+						return (suites[index] + delimiter + cardVal);
 					}
-				}
-				break;
-			case CONSTANT.THREE_OF_A_KIND:
-				for (i = 0; i < nums.length; i++) {
-					if (temp_arr[0] == nums[i] && cnt <= 3) {
-						winningCards.push(suites[i] + delimiter + nums[i]);
-						cnt++;
-					}
-				}
-				break;
-			case CONSTANT.TWO_PAIR:
-				for (i = 0; i < nums.length; i++) {
-					if (nums[i] == temp_arr[0] || nums[i] == temp_arr[1] && cnt < 4) {
-						winningCards.push(suites[i] + delimiter + nums[i]);
-						cnt++;
-					}
-				}
-				break;
-			case CONSTANT.ONE_PAIR:
-				for (i = 0; i < nums.length; i++) {
-					if (temp_arr[0] == nums[i] && cnt < 2) {
-						winningCards.push(suites[i] + delimiter + nums[i]);
-						cnt++;
-					}
-				}
+				}).filter(n => n);
 				break;
 			default:
-				winningCards.push(suites[0] + delimiter + nums[0]);
 				break;
 		}
-	}
+	};
 
 	const checkRank = (cardsArr) => {
-		console.log("The cards are :: " + cardsArr);
 		try {
 			if (isCardsRepeated(cardsArr)) {
 				throw "cards repeated : please do not use more than 1 suite ";
 			}
 		} catch (e) {
-			console.log("************** ERROR *********************");
-			console.log(e);
-			console.log("************** ERROR *********************");
+			console.error("************** ERROR *********************");
+			console.error(e);
+			console.error("************** ERROR *********************");
 			process.exit();
 		}
 
-		var card_array = rearrangeCards(convertToNumeric(cardsArr));
-		var card_suit = [];
-		var card_value = [];
-		var rank;
-		var straight;
+		let cards_in_hand = rearrangeCards(cardsArr.map(convertCard));
+		let [card_suit, card_value] = [[], []];
+		let rank, straight;
+		let hand;
 
-		for (var i = 0; i < card_array.length; i++) {
-			var t = card_array[i].split(delimiter);
-			card_suit[i] = t[0];
-			card_value[i] = parseInt(t[1]);
-		}
+		cards_in_hand.map((card, index) => {
+			let cardObj = card.split(delimiter);
+			[card_suit[index], card_value[index]] = [cardObj[0], parseInt(cardObj[1])];
+		});
 
 		rank = checkFlush(card_suit, card_value);
 
-		if (rank == CONSTANT.FLUSH) {
+		if (rank == WIN.FLUSH) {
 			straight = checkStraight(winningCards_nums);
 			if (straight == true) {
-				rank = (winningCards_nums[0] == 14 && winningCards_nums[1] == 13) ? CONSTANT.ROYAL_FLUSH : CONSTANT.STRAIGHT_FLUSH;
+				rank = (winningCards_nums[0] == 14 && winningCards_nums[1] == 13) ? WIN.ROYAL_FLUSH : WIN.STRAIGHT_FLUSH;
 			}
 		} else {
-			var tCardVal = card_value;
-			var tCardSuit = card_suit;
+			let tCardVal = card_value;
+			let tCardSuit = card_suit;
 			if (card_value[0] == 14) {
 				tCardVal.push(1);
 				tCardSuit.push(card_suit[0]);
 			}
 			straight = checkStraight(tCardVal, tCardSuit);
-			if (straight) {
-				rank = CONSTANT.STRAIGHT;
-			} else {
-				rank = checkNumbers(card_value, card_suit);
-			}
+			rank = (straight) ? WIN.STRAIGHT : checkNumbers(card_value, card_suit);
 		}
-		winningCards = revertToCards(winningCards);
-		console.log("The winning cards are " + winningCards);
-		console.log("THe rank is " + rank);
-		console.log("*********************************************************************************");
-	}
+		winningCards = winningCards.map(convertCard);
 
+		console.info("The winning cards are " + winningCards);
+		console.info("THe rank is " + rank);
+
+		// RETURN RANK & WINIINGS CARDS TO HIGHLIGHT
+		return {
+			"wintype": rank,
+			"winningcards": winningCards,
+			"hand": cardsArr
+		};
+	};
+
+	// This is the only exposed function
 	return {
 		"checkRank": checkRank
-	}
+	};
 
-};
+})();
 
-module.exports = pokerhand();
+module.exports = pokerhand;
