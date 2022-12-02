@@ -1,5 +1,38 @@
 {
   "dependencies": {
     "mocha": "^10.1.0"
-  }
+  },
+  "name": "pokerhandrank",
+  "description": "A simple algorithm (with JS ES6 features) to identify the win a hand has.",
+  "version": "1.0.0",
+  "main": "index.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chetansu/pokerhand_rank.git"
+  },
+  "keywords": [
+    "poker",
+    "poker",
+    "hand",
+    "poker",
+    "rank",
+    "rank",
+    "gambling",
+    "poker",
+    "game",
+    "casino",
+    "poker",
+    "hand",
+    "rank"
+  ],
+  "author": "Chetan Suri",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/chetansu/pokerhand_rank/issues"
+  },
+  "homepage": "https://github.com/chetansu/pokerhand_rank#readme"
 }
