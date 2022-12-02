@@ -6,39 +6,40 @@ https://github.com/chetansu/pokerhand_rank.git
 
 # Testing
 To run the mocha test case. please install mocha and run the cases by using the command mocha.
-'''sh
+```sh
 $ npm install -g mocha
 $ mocha
 
-Check Poker rank of various hands
-The winning cards are hearts-A,hearts-K,hearts-Q,hearts-J,hearts-10
-THe rank is ROYAL_FLUSH
+
+  Check Poker rank of various hands
+Winning Cards : hearts-A,hearts-K,hearts-Q,hearts-J,hearts-10
+Rank : ROYAL_FLUSH
     ✔ cards in hand are : hearts-A,hearts-K,clubs-J,diamonds-8,hearts-J,hearts-Q,hearts-10
-The winning cards are hearts-7,clubs-7,diamonds-7,spades-7
-THe rank is FOUR_OF_A_KIND
+Winning Cards : hearts-7,clubs-7,diamonds-7,spades-7
+Rank : FOUR_OF_A_KIND
     ✔ cards in hand are : hearts-7,hearts-3,clubs-7,diamonds-7,spades-7,hearts-5,spades-4
-The winning cards are hearts-9,hearts-5,hearts-4,hearts-3,hearts-2
-THe rank is FLUSH
+Winning Cards : hearts-9,hearts-5,hearts-4,hearts-3,hearts-2
+Rank : FLUSH
     ✔ cards in hand are : hearts-9,hearts-3,clubs-4,diamonds-8,hearts-4,hearts-5,hearts-2
-The winning cards are clubs-5,spades-5,hearts-4,clubs-4,diamonds-4
-THe rank is FULLHOUSE
+Winning Cards : clubs-5,spades-5,hearts-4,clubs-4,diamonds-4
+Rank : FULLHOUSE
     ✔ cards in hand are : hearts-4,hearts-3,clubs-4,diamonds-4,hearts-7,clubs-5,spades-5
-The winning cards are hearts-5,clubs-5,spades-5
-THe rank is THREE_OF_A_KIND
+Winning Cards : hearts-5,clubs-5,spades-5
+Rank : THREE_OF_A_KIND
     ✔ cards in hand are : hearts-5,hearts-3,clubs-4,diamonds-2,hearts-7,clubs-5,spades-5
-The winning cards are diamonds-4,hearts-4,hearts-3,clubs-3
-THe rank is TWO_PAIR
+Winning Cards : diamonds-4,hearts-4,hearts-3,clubs-3
+Rank : TWO_PAIR
     ✔ cards in hand are : hearts-4,hearts-3,clubs-3,diamonds-4,hearts-7,clubs-9,spades-5
-The winning cards are hearts-4,clubs-4
-THe rank is ONE_PAIR
+Winning Cards : hearts-4,clubs-4
+Rank : ONE_PAIR
     ✔ cards in hand are : hearts-4,hearts-A,clubs-4,diamonds-6,hearts-7,clubs-9,spades-5
-The winning cards are diamonds-K
-THe rank is HIGH_CARD
+Winning Cards : diamonds-K
+Rank : HIGH_CARD
     ✔ cards in hand are : hearts-4,hearts-7,clubs-9,diamonds-K,hearts-J,clubs-2,spades-5
 
 
   8 passing (21ms)
-'''
+```
 
 License
 ----

@@ -237,8 +237,8 @@ const pokerhand = (() => {
 		}
 		winningCards = winningCards.map(convertCard);
 
-		console.info("The winning cards are " + winningCards);
-		console.info("THe rank is " + rank);
+		console.info("Winning Cards : " + winningCards);
+		console.info("Rank : " + rank);
 
 		// RETURN RANK & WINIINGS CARDS TO HIGHLIGHT
 		return {
