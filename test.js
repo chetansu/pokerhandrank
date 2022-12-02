@@ -1,5 +1,5 @@
 const assert = require('assert');
-const pokerhand = require('./pokerhand');
+const pokerhand = require('./index');
 
 describe('Check Poker rank of various hands', function () {
   const tests = [
