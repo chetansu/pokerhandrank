@@ -60,6 +60,7 @@ const pokerhand = (() => {
 		let suitCount = {};
 		let winningCardsVal = {};
 
+		// for loop is better suited here as conditional break is not available with map
 		suits.map((suit, index) => {
 			if (suitCount[suit] === undefined) {
 				suitCount[suit] = [];
@@ -137,7 +138,6 @@ const pokerhand = (() => {
 						two_pair = true;
 						cNumValArr[1] = cardVal;
 					} else if (ToK) {
-						console.log("setting full house here 2");
 						fullhouse = true;
 						cNumValArr[1] = cardVal;
 					} else {
@@ -202,12 +202,10 @@ const pokerhand = (() => {
 	const checkRank = (hand) => {
 		try {
 			if (isCardsRepeated(hand)) {
-				throw "cards repeated : please do not use more than 1 suite ";
+				throw new Error("cards repeated : cards from 1 set only, please do not use repeated cards.");
 			}
 		} catch (e) {
-			console.error("************** ERROR *********************");
-			console.error(e);
-			console.error("************** ERROR *********************");
+			console.error(e.stack);
 			process.exit();
 		}
 
@@ -241,7 +239,6 @@ const pokerhand = (() => {
 
 		console.info("The winning cards are " + winningCards);
 		console.info("THe rank is " + rank);
-		console.info("*********************************************************************");
 
 		// RETURN RANK & WINIINGS CARDS TO HIGHLIGHT
 		return {
