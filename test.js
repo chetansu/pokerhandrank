@@ -10,7 +10,9 @@ describe('Check Poker rank of various hands', function () {
     {args: ["hearts-5", "hearts-3", "clubs-4", "diamonds-2", "hearts-7", "clubs-5", "spades-5"], expected: "THREE_OF_A_KIND"},
     {args: ["hearts-4", "hearts-3", "clubs-3", "diamonds-4", "hearts-7", "clubs-9", "spades-5"], expected: "TWO_PAIR"},
     {args: ["hearts-4", "hearts-A", "clubs-4", "diamonds-6", "hearts-7", "clubs-9", "spades-5"], expected: "ONE_PAIR"},
-    {args: ["hearts-4", "hearts-7", "clubs-9", "diamonds-K", "hearts-J", "clubs-2", "spades-5"], expected: "HIGH_CARD"}
+    {args: ["hearts-4", "hearts-7", "clubs-9", "diamonds-K", "hearts-J", "clubs-2", "spades-5"], expected: "HIGH_CARD"},
+    {args: ["hearts-4", "hearts-3", "clubs-3", "diamonds-4", "hearts-7", "clubs-5", "spades-5"], expected: "TWO_PAIR"},
+    {args: ["hearts-4", "hearts-3", "clubs-4", "diamonds-4", "clubs-3", "clubs-5", "spades-5"], expected: "FULLHOUSE"},
   ];
 
   tests.forEach(({args, expected}) => {
