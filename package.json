@@ -4,7 +4,7 @@
   },
   "name": "pokerhandrank",
   "description": "A simple algorithm (with JS ES6 features) to identify the win a hand has.",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "main": "index.js",
   "devDependencies": {},
   "scripts": {

@@ -114,41 +114,53 @@ const pokerhand = (() => {
 
 		cardValueArr.map((cardVal) => {
 			cNum[cardVal] += 1;
-			switch (cNum[cardVal]) {
+		});
+
+		for (var i = 0; i < cNum.length; i++) {
+			switch (cNum[i]) {
 				case 4:
 					FoK = true;
-					cNumValArr[0] = cardVal;
+					cNumValArr[0] = i;
 					break;
 				case 3:
-					if (one_pair && cNumValArr[0] !== cardVal) {
+					if (one_pair) {
+						one_pair = false;
 						fullhouse = true;
-						cNumValArr[1] = cardVal;
+						cNumValArr[1] = i;
 					} else if (two_pair) {
-						if (cNumValArr.includes(cardVal)) {
-							fullhouse = true;
-						}
-						cNumValArr[1] = cardVal;
+						two_pair = false;
+						fullhouse = true;
+						cNumValArr[0] = Math.max(...cNumValArr);
+						cNumValArr[1] = i;
+					} else if (ToK) {
+						ToK = false;
+						fullhouse = true;
+						cNumValArr[1] = i;
 					} else {
 						ToK = true;
-						cNumValArr[0] = cardVal;
+						cNumValArr[0] = i;
 					}
 					break;
 				case 2:
-					if (one_pair || two_pair) {
+					if (one_pair) {
+						one_pair = false;
 						two_pair = true;
-						cNumValArr[1] = cardVal;
+						cNumValArr[1] = i;
+					} else if (two_pair) {
+						cNumValArr = [...cNumValArr, i].sort().reverse().slice(0, 2);
 					} else if (ToK) {
+						one_pair = false;
 						fullhouse = true;
-						cNumValArr[1] = cardVal;
+						cNumValArr[1] = i;
 					} else {
 						one_pair = true;
-						cNumValArr[0] = cardVal;
+						cNumValArr[0] = i;
 					}
 					break;
 				default:
 					break;
 			}
-		});
+		}
 		straight = checkStraight(cardValueArr);
 		let winType = "";
 		// RETURN WINTYPE

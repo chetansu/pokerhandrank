@@ -11,8 +11,10 @@ describe('Check Poker rank of various hands', function () {
     {args: ["hearts-4", "hearts-3", "clubs-3", "diamonds-4", "hearts-7", "clubs-9", "spades-5"], expected: "TWO_PAIR"},
     {args: ["hearts-4", "hearts-A", "clubs-4", "diamonds-6", "hearts-7", "clubs-9", "spades-5"], expected: "ONE_PAIR"},
     {args: ["hearts-4", "hearts-7", "clubs-9", "diamonds-K", "hearts-J", "clubs-2", "spades-5"], expected: "HIGH_CARD"},
-    {args: ["hearts-4", "hearts-3", "clubs-3", "diamonds-4", "hearts-7", "clubs-5", "spades-5"], expected: "TWO_PAIR"},
-    {args: ["hearts-4", "hearts-3", "clubs-4", "diamonds-4", "clubs-3", "clubs-5", "spades-5"], expected: "FULLHOUSE"},
+    {args: ["hearts-4", "hearts-3", "clubs-3", "diamonds-4", "hearts-7", "clubs-5", "spades-5"], expected: "TWO_PAIR"},         // Three pairs
+    {args: ["hearts-4", "hearts-3", "clubs-4", "diamonds-4", "clubs-3", "clubs-5", "spades-5"], expected: "FULLHOUSE"},         // Two Pairs and 1 set Three of a kind
+    {args: ["hearts-4", "hearts-5", "clubs-4", "diamonds-4", "clubs-3", "clubs-5", "spades-5"], expected: "FULLHOUSE"},         // 2 set Three of a kind  - FullHouse
+    {args: ["hearts-4", "hearts-5", "clubs-4", "diamonds-4", "diamonds-5", "clubs-5", "spades-5"], expected: "FOUR_OF_A_KIND"},         // Three of a kind & Four of a Kind - FOUR_OF_A_KIND
   ];
 
   tests.forEach(({args, expected}) => {

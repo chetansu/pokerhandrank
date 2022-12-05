@@ -34,13 +34,11 @@ call to checkRank will result in the json structured below
 }
 ```
 
-
 # Testing
 To run the mocha test case. please install mocha and run the cases by using the command mocha.
 ```sh
 $ npm install -g mocha
 $ mocha
-
 
   Check Poker rank of various hands
 Winning Cards : hearts-A,hearts-K,hearts-Q,hearts-J,hearts-10
@@ -67,10 +65,25 @@ Rank : ONE_PAIR
 Winning Cards : diamonds-K
 Rank : HIGH_CARD
     ✔ cards in hand are : hearts-4,hearts-7,clubs-9,diamonds-K,hearts-J,clubs-2,spades-5
+Winning Cards : clubs-5,spades-5,diamonds-4,hearts-4
+Rank : TWO_PAIR
+    ✔ cards in hand are : hearts-4,hearts-3,clubs-3,diamonds-4,hearts-7,clubs-5,spades-5
+Winning Cards : clubs-5,spades-5,diamonds-4,hearts-4,clubs-4
+Rank : FULLHOUSE
+    ✔ cards in hand are : hearts-4,hearts-3,clubs-4,diamonds-4,clubs-3,clubs-5,spades-5
+Winning Cards : hearts-5,clubs-5,spades-5,diamonds-4,hearts-4,clubs-4
+Rank : FULLHOUSE
+    ✔ cards in hand are : hearts-4,hearts-5,clubs-4,diamonds-4,clubs-3,clubs-5,spades-5
+Winning Cards : hearts-5,diamonds-5,clubs-5,spades-5
+Rank : FOUR_OF_A_KIND
+    ✔ cards in hand are : hearts-4,hearts-5,clubs-4,diamonds-4,diamonds-5,clubs-5,spades-5
 
 
-  8 passing (21ms)
+  12 passing (27ms)
 ```
+
+## NOTE
+This library can be directly used with AWS lambda function to work as a microservice.
 
 License
 ----
