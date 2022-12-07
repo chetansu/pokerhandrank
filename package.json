@@ -4,7 +4,7 @@
   },
   "name": "pokerhandrank",
   "description": "A simple algorithm (with JS ES6 features) to identify the win a hand has.",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "main": "index.js",
   "devDependencies": {},
   "scripts": {
@@ -12,27 +12,22 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/chetansu/pokerhand_rank.git"
+    "url": "git+https://github.com/chetansu/pokerhandrank.git"
   },
   "keywords": [
     "poker",
-    "poker",
-    "hand",
-    "poker",
-    "rank",
-    "rank",
-    "gambling",
-    "poker",
-    "game",
+    "poker hand",
+    "poker rank",
+    "Texas hold'em",
+    "poker game",
     "casino",
-    "poker",
     "hand",
     "rank"
   ],
   "author": "Chetan Suri",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/chetansu/pokerhand_rank/issues"
+    "url": "https://github.com/chetansu/pokerhandrank/issues"
   },
-  "homepage": "https://github.com/chetansu/pokerhand_rank#readme"
+  "homepage": "https://github.com/chetansu/pokerhandrank#readme"
 }
