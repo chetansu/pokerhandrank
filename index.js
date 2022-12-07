@@ -84,9 +84,9 @@ const pokerhand = (() => {
 
 		let wCards = [];
 		for (let i = 0; i < cardValueArr.length - 1; i++) {
-			if (cardValueArr[i] === cardValueArr[i + 1] + 1) {
+			if (cardValueArr[i] === cardValueArr[i + 1] + 1 || (cardValueArr[i] === 2 && cardValueArr[i+1] === 14)) {
 				count += 1;
-				wCards.push(suits[i] + delimiter + cardValueArr[i])
+				wCards.push(suits[i] + delimiter + cardValueArr[i]);
 				if (i === cardValueArr.length - 2) {
 					count += 1;
 					wCards.push(suits[i + 1] + delimiter + cardValueArr[i + 1]);

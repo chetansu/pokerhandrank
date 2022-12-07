@@ -1,6 +1,7 @@
-const pokerhand = require("pokerhandrank");
+const pokerhand = require("./index");
 
 console.log(pokerhand.checkRank(["hearts-A", "hearts-K", "clubs-J", "diamonds-8", "hearts-J", "hearts-Q", "hearts-10"]));
+console.log(pokerhand.checkRank(["hearts-A", "hearts-5", "clubs-J", "diamonds-8", "hearts-3", "hearts-4", "hearts-2"]));
 console.log(pokerhand.checkRank(["hearts-7", "hearts-3", "clubs-7", "diamonds-7", "spades-7", "hearts-5", "spades-4"]));
 console.log(pokerhand.checkRank(["hearts-9", "hearts-3", "clubs-4", "diamonds-8", "hearts-4", "hearts-5", "hearts-2"]));
 console.log(pokerhand.checkRank(["hearts-4", "hearts-3", "clubs-4", "diamonds-4", "hearts-7", "clubs-5", "spades-5"]));
