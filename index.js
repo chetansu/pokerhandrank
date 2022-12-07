@@ -235,7 +235,7 @@ const pokerhand = (() => {
 		if (rank == WIN.FLUSH) {
 			straight = checkStraight(winningCards_nums);
 			if (straight == true) {
-				rank = (winningCards_nums[0] == 14 && winningCards_nums[1] == 13) ? WIN.ROYAL_FLUSH : rank;
+				rank = (winningCards_nums[0] == 14 && winningCards_nums[1] == 13) ? WIN.ROYAL_FLUSH : WIN.STRAIGHT_FLUSH;
 			}
 		} else {
 			let tCardVal = card_value;
